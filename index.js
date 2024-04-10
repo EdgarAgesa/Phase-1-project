@@ -104,12 +104,12 @@ function displayCocktailDetails(cocktail) {
     cocktailInstructions.textContent = cocktail.strInstructions;
     cocktailDetails.appendChild(cocktailInstructions);
 
-   
+   //To show the title of the ingredients
     const ingredientsTitle = document.createElement('h4');
     ingredientsTitle.textContent = 'Ingredients:';
     cocktailDetails.appendChild(ingredientsTitle);
 
-
+    
     const ingredientsList = document.createElement('ul');
 
     // Loop through the ingredients 
