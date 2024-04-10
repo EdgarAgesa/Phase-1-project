@@ -88,6 +88,11 @@ function displayCocktailDetails(cocktail) {
     cocktailDetails.appendChild(cocktailAlcoholic);
 
 
+    // A mouseover event listener to the element h3
+    cocktailAlcoholic.addEventListener('mouseover', function() {
+        // Change the text color of the element when the mouse is over it
+        cocktailAlcoholic.style.color = 'red';
+    });
 
     const cocktailImage = document.createElement('img');
     cocktailImage.src = cocktail.strDrinkThumb;
