@@ -79,6 +79,7 @@ function displayCocktailDetails(cocktail) {
     cocktailName.textContent = cocktail.strDrink;
     cocktailDetails.appendChild(cocktailName);
 
+    //Shows the category name of the cocktail
     const category =document.createElement('div');
     category.textContent =`It\'s ${cocktail.strCategory}`;
     cocktailDetails.appendChild(category);
