@@ -130,3 +130,4 @@ function displayCocktailDetails(cocktail) {
     cocktailDetails.appendChild(ingredientsList);
 }
 
+
