@@ -99,7 +99,7 @@ function displayCocktailDetails(cocktail) {
     cocktailImage.src = cocktail.strDrinkThumb;
     cocktailDetails.appendChild(cocktailImage);
 
-
+    //Creats a paragraph element where instructions are inserted
     const cocktailInstructions = document.createElement('p');
     cocktailInstructions.textContent = cocktail.strInstructions;
     cocktailDetails.appendChild(cocktailInstructions);
