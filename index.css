@@ -1,0 +1,110 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+input[type="text"] {
+    padding: 5px;
+    margin: 10px;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#toggle {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    justify-content: left;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#cocktailList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cocktail-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    color: coral;
+}
+
+#cocktailDetails {
+    margin-top: 20px;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
+p {
+    margin: 10px 0;
+}
+.cocktail-alcoholic{
+    color: #ff4800;
+}
+
+/* Styling for cocktail ingredients list */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+h4 {
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Styling for individual ingredient items */
+li:before {
+    content: "•"; /* Bullet point before each ingredient */
+    color: #FF6347; /* Coral color for the bullet point */
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+h4{
+    color:chocolate;
+}
