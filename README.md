@@ -13,3 +13,27 @@ By **Edgar Agesa**
 * A computer with a bash terminal and node installed.
 * Access to the internet.
 
+### Installation Process
+1. Clone this repository using
+
+    ```bash
+      git clone git@github.com:EdgarAgesa/Phase-1-project.git
+    ```
+
+    or by downloading a ZIP file of the code.
+  
+2. The repository, if downloaded as a .zip file will need to be extracted to your preferred location.
+
+3. Navigate to the project folder on your bash terminal.
+
+4. Install dependancies using
+
+    ```bash
+      npm install
+    ```
+
+5. Run the application using
+
+    ```bash
+      node index.js
+    ```
