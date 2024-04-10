@@ -111,14 +111,13 @@ function displayCocktailDetails(cocktail) {
 
     const ingredientsList = document.createElement('ul');
 
-    // Loop through the ingredients and measures
+    // Loop through the ingredients 
     for (let i = 1; i <= 15; i++) {
         const ingredient = cocktail['strIngredient' + i];
-        const measure = cocktail['strMeasure' + i];
 
         if (ingredient) {
             const ingredientItem = document.createElement('li');
-            ingredientItem.textContent = `${measure ? measure + ' ' : ''}${ingredient}`;
+            ingredientItem.textContent = `${ingredient}`;
             ingredientsList.appendChild(ingredientItem);
         } else {
             break;
