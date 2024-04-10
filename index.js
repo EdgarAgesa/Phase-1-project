@@ -94,6 +94,7 @@ function displayCocktailDetails(cocktail) {
         cocktailAlcoholic.style.color = 'red';
     });
 
+    //Create an image element to store the image of the cocktail chosen
     const cocktailImage = document.createElement('img');
     cocktailImage.src = cocktail.strDrinkThumb;
     cocktailDetails.appendChild(cocktailImage);
