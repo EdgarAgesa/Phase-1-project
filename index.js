@@ -1,5 +1,5 @@
-//  API endpoint
-const apiEndpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+//  API 
+const api = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
 // Elements from the HTML
 const searchInput = document.getElementById('searchInput');
@@ -41,7 +41,7 @@ searchButton.addEventListener('click', () => {
     const searchTerm = searchInput.value;
 
     // Fetch cocktails based on search term
-    fetch(apiEndpoint + searchTerm)
+    fetch(api + searchTerm)
         .then(response => response.json())
         .then(data => {
             displayCocktails(data.drinks);
@@ -88,11 +88,6 @@ function displayCocktailDetails(cocktail) {
     cocktailDetails.appendChild(cocktailAlcoholic);
 
 
-    // A mouseover event listener to the element h3
-    cocktailAlcoholic.addEventListener('mouseover', function() {
-        // Change the text color of the element when the mouse is over it
-        cocktailAlcoholic.style.color = 'red';
-    });
 
     const cocktailImage = document.createElement('img');
     cocktailImage.src = cocktail.strDrinkThumb;
