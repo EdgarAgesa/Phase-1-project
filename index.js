@@ -75,6 +75,7 @@ function displayCocktails(cocktails) {
 function displayCocktailDetails(cocktail) {
     cocktailDetails.innerHTML = '';
 
+    //Shows the name of the drink 
     const cocktailName = document.createElement('h2');
     cocktailName.textContent = cocktail.strDrink;
     cocktailDetails.appendChild(cocktailName);
