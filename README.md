@@ -37,3 +37,9 @@ By **Edgar Agesa**
     ```bash
       node index.js
     ```
+
+## Technologies Used
+*HTML
+*CSS
+*JavaScript
+
