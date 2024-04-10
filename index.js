@@ -106,5 +106,24 @@ function displayCocktailDetails(cocktail) {
    
     const ingredientsTitle = document.createElement('h4');
     ingredientsTitle.textContent = 'Ingredients:';
-    cocktailDetails.appendChild(ingredientsTitle); 
+    cocktailDetails.appendChild(ingredientsTitle);
+
+
+    const ingredientsList = document.createElement('ul');
+
+    // Loop through the ingredients and measures
+    for (let i = 1; i <= 15; i++) {
+        const ingredient = cocktail['strIngredient' + i];
+        const measure = cocktail['strMeasure' + i];
+
+        if (ingredient) {
+            const ingredientItem = document.createElement('li');
+            ingredientItem.textContent = `${measure ? measure + ' ' : ''}${ingredient}`;
+            ingredientsList.appendChild(ingredientItem);
+        } else {
+            break;
+        }
+    }
+    cocktailDetails.appendChild(ingredientsList);
 }
+
