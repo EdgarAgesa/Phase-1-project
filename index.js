@@ -83,6 +83,7 @@ function displayCocktailDetails(cocktail) {
     category.textContent =`It\'s ${cocktail.strCategory}`;
     cocktailDetails.appendChild(category);
 
+    //It displays if the cocktail is alcoholic or non-alcoholic
     const cocktailAlcoholic = document.createElement('h3');
     cocktailAlcoholic.textContent = cocktail.strAlcoholic;
     cocktailDetails.appendChild(cocktailAlcoholic);
