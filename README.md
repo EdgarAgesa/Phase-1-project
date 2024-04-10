@@ -45,5 +45,4 @@ By **Edgar Agesa**
 
 ## Support and Contact Details
 
-Incase of any query, need for collaboration or issues with this code, feel free to reach me at
-<edgarasige@gmail.com>
+Incase of any query, need for collaboration or issues with this code, feel free to reach me at <edgarasige@gmail.com>
