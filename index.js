@@ -109,7 +109,7 @@ function displayCocktailDetails(cocktail) {
     ingredientsTitle.textContent = 'Ingredients:';
     cocktailDetails.appendChild(ingredientsTitle);
 
-    
+    // Create an unordered list element to store the ingredients
     const ingredientsList = document.createElement('ul');
 
     // Loop through the ingredients 
