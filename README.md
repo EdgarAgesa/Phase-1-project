@@ -39,7 +39,11 @@ By **Edgar Agesa**
     ```
 
 ## Technologies Used
-*HTML
-*CSS
-*JavaScript
+* HTML
+* CSS
+* JavaScript
 
+## Support and Contact Details
+
+Incase of any query, need for collaboration or issues with this code, feel free to reach me at
+<edgarasige@gmail.com>
