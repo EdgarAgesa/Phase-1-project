@@ -12,20 +12,6 @@ searchInput.addEventListener('focus', function() {
     searchInput.style.backgroundColor = 'lightgreen';
 });
 
-// Add a resize event listener to the window object
-window.addEventListener('resize', function() {
-    // Get the new window width and height
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-
-    // Update the webpage layout based on the window size
-    if (windowWidth < 768) {
-        // Adjust layout for smaller screens
-    } else {
-        // Default layout for larger screens
-    }
-});
-
 // Event listener for toggling dark/light mode
 const toggleButton = document.getElementById('toggle');
 let isDarkMode = false;
