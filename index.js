@@ -66,16 +66,25 @@ function displayCocktailDetails(cocktail) {
     cocktailName.textContent = cocktail.strDrink;
     cocktailDetails.appendChild(cocktailName);
 
+     // Create a like button
+     const likeButton = document.createElement('button');
+     likeButton.textContent = 'Like';
+     let likes = 0;
+     likeButton.addEventListener('click', () => {
+         likes++;
+         likeButton.textContent = `Like (${likes})`;
+     });
+     cocktailDetails.appendChild(likeButton);
+
     //Shows the category name of the cocktail
-    const category =document.createElement('div');
-    category.textContent =`It\'s ${cocktail.strCategory}`;
+    const category = document.createElement('div');
+    category.textContent = `It's ${cocktail.strCategory}`;
     cocktailDetails.appendChild(category);
 
     //It displays if the cocktail is alcoholic or non-alcoholic
     const cocktailAlcoholic = document.createElement('h3');
     cocktailAlcoholic.textContent = cocktail.strAlcoholic;
     cocktailDetails.appendChild(cocktailAlcoholic);
-
 
     // A mouseover event listener to the element h3
     cocktailAlcoholic.addEventListener('mouseover', function() {
@@ -88,12 +97,14 @@ function displayCocktailDetails(cocktail) {
     cocktailImage.src = cocktail.strDrinkThumb;
     cocktailDetails.appendChild(cocktailImage);
 
-    //Creats a paragraph element where instructions are inserted
+   
+
+    // Create a paragraph element where instructions are inserted
     const cocktailInstructions = document.createElement('p');
     cocktailInstructions.textContent = cocktail.strInstructions;
     cocktailDetails.appendChild(cocktailInstructions);
 
-   //To show the title of the ingredients
+    // To show the title of the ingredients
     const ingredientsTitle = document.createElement('h4');
     ingredientsTitle.textContent = 'Ingredients:';
     cocktailDetails.appendChild(ingredientsTitle);
@@ -101,7 +112,7 @@ function displayCocktailDetails(cocktail) {
     // Create an unordered list element to store the ingredients
     const ingredientsList = document.createElement('ul');
 
-    // Loop through the ingredients 
+    // Loop through the ingredients
     for (let i = 1; i <= 15; i++) {
         const ingredient = cocktail['strIngredient' + i];
 
@@ -115,6 +126,3 @@ function displayCocktailDetails(cocktail) {
     }
     cocktailDetails.appendChild(ingredientsList);
 }
-
-
- 
