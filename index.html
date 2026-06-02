@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cocktail Explorer</title>
-    <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cocktail Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <header>
-        <h1>Cocktail Explorer</h1>
-        <input type="text" id="searchInput" placeholder="Search cocktails...">
-        <button id="searchButton">Search</button>
-        <button id="toggle">Light/Dark mode</button>
-    </header>
-    <main>
-        <div id="cocktailList"></div>
-        <div id="cocktailDetails"></div>
-    </main>
-    <script src="index.js"></script>
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark">◓</span>
+      <h1>Cocktail Explorer</h1>
+    </div>
+    <p class="tagline">Search 600+ recipes from around the world</p>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Try “margarita”, “mojito”, “negroni”…" autocomplete="off">
+      <button id="searchButton">Search</button>
+      <button id="randomButton" title="Surprise me">🎲</button>
+    </div>
+    <button id="toggle" aria-label="Toggle theme">☾</button>
+  </header>
+
+  <main>
+    <section id="results" aria-live="polite">
+      <div id="status" class="status"></div>
+      <div id="cocktailList"></div>
+    </section>
+    <aside id="cocktailDetails"></aside>
+  </main>
+
+  <script src="index.js"></script>
 </body>
-</html> 
+</html>

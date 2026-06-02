@@ -1,128 +1,142 @@
-//  API 
-const api = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+const SEARCH_API = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+const RANDOM_API = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
 
-// Elements from the HTML
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
+const randomButton = document.getElementById('randomButton');
 const cocktailList = document.getElementById('cocktailList');
 const cocktailDetails = document.getElementById('cocktailDetails');
-
-// Change the background color of the input field
-searchInput.addEventListener('focus', function() {
-    searchInput.style.backgroundColor = 'lightgreen';
-});
-
-// Event listener for toggling dark/light mode
+const statusEl = document.getElementById('status');
 const toggleButton = document.getElementById('toggle');
-let isDarkMode = false;
+
+/* ---------- Theme (persisted) ---------- */
+const savedTheme = localStorage.getItem('ce-theme') || 'light';
+applyTheme(savedTheme);
+
 toggleButton.addEventListener('click', () => {
-    isDarkMode = !isDarkMode;
-    document.body.style.backgroundColor = isDarkMode ? 'black' : 'white';
-    document.body.style.color = isDarkMode ? 'white' : 'black';
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  localStorage.setItem('ce-theme', next);
 });
 
-
-// Event listener for search button click
-searchButton.addEventListener('click', () => {
-    const searchTerm = searchInput.value;
-
-    // Fetch cocktails based on search term
-    fetch(api + searchTerm)
-        .then(response => response.json())
-        .then(data => {
-            displayCocktails(data.drinks);
-        })
-        .catch(error => console.error('Error fetching cocktails:', error));
-});
-
-
-// Function to display cocktails in the list
-function displayCocktails(cocktails) {
-    cocktailList.innerHTML = '';
-
-    if (cocktails) {
-        cocktails.forEach(cocktail => {
-            const cocktailItem = document.createElement('div');
-            cocktailItem.classList.add('cocktail-item');
-            cocktailItem.textContent = cocktail.strDrink;
-
-            cocktailItem.addEventListener('click', () => {
-                displayCocktailDetails(cocktail);
-            });
-
-            cocktailList.appendChild(cocktailItem);
-        });
-    } else {
-        cocktailList.textContent = 'No cocktails found.';
-    }
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  toggleButton.textContent = theme === 'dark' ? '☀' : '☾';
 }
 
-// Function to display details of a selected cocktail
-function displayCocktailDetails(cocktail) {
-    cocktailDetails.innerHTML = '';
+/* ---------- Likes (persisted per drink) ---------- */
+function getLikes(id) {
+  return JSON.parse(localStorage.getItem('ce-likes') || '{}')[id] || 0;
+}
+function setLikes(id, value) {
+  const all = JSON.parse(localStorage.getItem('ce-likes') || '{}');
+  all[id] = value;
+  localStorage.setItem('ce-likes', JSON.stringify(all));
+}
 
-    //Shows the name of the drink 
-    const cocktailName = document.createElement('h2');
-    cocktailName.textContent = cocktail.strDrink;
-    cocktailDetails.appendChild(cocktailName);
+/* ---------- Status helpers ---------- */
+function showStatus(html) { statusEl.innerHTML = html; }
+function clearStatus() { statusEl.innerHTML = ''; }
 
-     // Create a like button
-     const likeButton = document.createElement('button');
-     likeButton.textContent = 'Like';
-     let likes = 0;
-     likeButton.addEventListener('click', () => {
-         likes++;
-         likeButton.textContent = `Like (${likes})`;
-     });
-     cocktailDetails.appendChild(likeButton);
+/* ---------- Fetching ---------- */
+async function searchCocktails(term) {
+  if (!term.trim()) { showStatus('Type a cocktail name to begin.'); return; }
+  cocktailList.innerHTML = '';
+  cocktailDetails.innerHTML = '';
+  showStatus('<div class="spinner"></div>');
+  try {
+    const res = await fetch(SEARCH_API + encodeURIComponent(term));
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+    displayCocktails(data.drinks);
+  } catch (err) {
+    showStatus('Something went wrong. Check your connection and try again.');
+  }
+}
 
-    //Shows the category name of the cocktail
-    const category = document.createElement('div');
-    category.textContent = `It's ${cocktail.strCategory}`;
-    cocktailDetails.appendChild(category);
+async function fetchRandom() {
+  cocktailList.innerHTML = '';
+  showStatus('<div class="spinner"></div>');
+  try {
+    const res = await fetch(RANDOM_API);
+    const data = await res.json();
+    displayCocktails(data.drinks);
+    if (data.drinks) displayCocktailDetails(data.drinks[0]);
+  } catch {
+    showStatus('Could not fetch a random cocktail.');
+  }
+}
 
-    //It displays if the cocktail is alcoholic or non-alcoholic
-    const cocktailAlcoholic = document.createElement('h3');
-    cocktailAlcoholic.textContent = cocktail.strAlcoholic;
-    cocktailDetails.appendChild(cocktailAlcoholic);
+searchButton.addEventListener('click', () => searchCocktails(searchInput.value));
+searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') searchCocktails(searchInput.value); });
+randomButton.addEventListener('click', fetchRandom);
 
-    // A mouseover event listener to the element h3
-    cocktailAlcoholic.addEventListener('mouseover', function() {
-        // Change the text color of the element when the mouse is over it
-        cocktailAlcoholic.style.color = 'red';
+/* ---------- Render list ---------- */
+function displayCocktails(cocktails) {
+  cocktailList.innerHTML = '';
+  if (!cocktails) {
+    showStatus('No cocktails found. Try another search.');
+    return;
+  }
+  clearStatus();
+  cocktails.forEach((cocktail, i) => {
+    const item = document.createElement('div');
+    item.className = 'cocktail-item';
+    item.style.animationDelay = `${i * 50}ms`;
+    item.innerHTML = `
+      <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}" loading="lazy">
+      <span class="label">${cocktail.strDrink}</span>`;
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.cocktail-item').forEach(el => el.classList.remove('active'));
+      item.classList.add('active');
+      displayCocktailDetails(cocktail);
     });
+    cocktailList.appendChild(item);
+  });
+}
 
-    //Create an image element to store the image of the cocktail chosen
-    const cocktailImage = document.createElement('img');
-    cocktailImage.src = cocktail.strDrinkThumb;
-    cocktailDetails.appendChild(cocktailImage);
+/* ---------- Render detail panel ---------- */
+function displayCocktailDetails(cocktail) {
+  const id = cocktail.idDrink;
+  const isAlcoholic = (cocktail.strAlcoholic || '').toLowerCase() === 'alcoholic';
 
-   
+  const ingredients = [];
+  for (let i = 1; i <= 15; i++) {
+    const name = cocktail['strIngredient' + i];
+    if (!name) break;
+    ingredients.push({ name, measure: (cocktail['strMeasure' + i] || '').trim() });
+  }
 
-    // Create a paragraph element where instructions are inserted
-    const cocktailInstructions = document.createElement('p');
-    cocktailInstructions.textContent = cocktail.strInstructions;
-    cocktailDetails.appendChild(cocktailInstructions);
+  cocktailDetails.innerHTML = `
+    <div class="detail-head">
+      <div>
+        <h2>${cocktail.strDrink}</h2>
+        <div class="tags">
+          ${cocktail.strCategory ? `<span class="tag">${cocktail.strCategory}</span>` : ''}
+          ${cocktail.strAlcoholic ? `<span class="tag ${isAlcoholic ? 'alcoholic' : ''}">${cocktail.strAlcoholic}</span>` : ''}
+          ${cocktail.strGlass ? `<span class="tag">${cocktail.strGlass}</span>` : ''}
+        </div>
+      </div>
+      <button class="like-btn" id="likeBtn">♥ <span id="likeCount">${getLikes(id)}</span></button>
+    </div>
+    <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}">
+    <div class="section-title">Instructions</div>
+    <p>${cocktail.strInstructions || 'No instructions available.'}</p>
+    <div class="section-title">Ingredients</div>
+    <ul>
+      ${ingredients.map(ing => `
+        <li><span>${ing.name}</span><span class="measure">${ing.measure || '—'}</span></li>`).join('')}
+    </ul>`;
 
-    // To show the title of the ingredients
-    const ingredientsTitle = document.createElement('h4');
-    ingredientsTitle.textContent = 'Ingredients:';
-    cocktailDetails.appendChild(ingredientsTitle);
+  const likeBtn = document.getElementById('likeBtn');
+  const likeCount = document.getElementById('likeCount');
+  if (getLikes(id) > 0) likeBtn.classList.add('liked');
+  likeBtn.addEventListener('click', () => {
+    const newCount = getLikes(id) + 1;
+    setLikes(id, newCount);
+    likeCount.textContent = newCount;
+    likeBtn.classList.add('liked');
+  });
 
-    // Create an unordered list element to store the ingredients
-    const ingredientsList = document.createElement('ul');
-
-    // Loop through the ingredients
-    for (let i = 1; i <= 15; i++) {
-        const ingredient = cocktail['strIngredient' + i];
-
-        if (ingredient) {
-            const ingredientItem = document.createElement('li');
-            ingredientItem.textContent = `${ingredient}`;
-            ingredientsList.appendChild(ingredientItem);
-        } else {
-            break;
-        }
-    }
-    cocktailDetails.appendChild(ingredientsList);
+  cocktailDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
